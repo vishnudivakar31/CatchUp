@@ -3,7 +3,13 @@ const path = require("path")
 const express = require('express')
 const app = express()
 const http = require('http').createServer(app)
-const io = require('socket.io')(http)
+const io = require('socket.io')(http, { 
+    cors: { 
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+        credentials: true
+    } 
+})
 
 var users_uuid = {}
 
@@ -15,6 +21,7 @@ app.get('/', (req, res) => {
 
 function registerUser(uuid, userID) {
     users_uuid[uuid] = userID
+    console.log(users_uuid)
 }
 
 function unregisterUser(userID) {
@@ -24,6 +31,7 @@ function unregisterUser(userID) {
         }
         return accumulator
     }, {})
+    console.log(users_uuid)
 }
 
 io.on(Constants.CONNECTION, (socket) => {
