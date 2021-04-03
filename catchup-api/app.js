@@ -34,14 +34,35 @@ function unregisterUser(userID) {
     console.log(users_uuid)
 }
 
+function sendOffer(payload, socket) {
+    let targetUUID = payload.targetUUID
+    let targetID = users_uuid[targetUUID]
+    if (targetID) {
+        io.emit(Constants.OFFER_RECV, JSON.stringify(payload))
+    } else {
+        socket.emit(Constants.INVALID_UUID, {...payload, message: 'invalid user ID'})
+    }
+}
+
+function sendAnswer(payload, socket) {
+    let targetUUID = payload.targetUUID
+    let targetID = users_uuid[targetUUID]
+    if (targetID) {
+        io.emit(Constants.ANSWER_RECV, JSON.stringify(payload))
+    } else {
+        socket.emit(Constants.INVALID_UUID, {...payload, message: 'invalid user ID'})
+    }
+}
+
 io.on(Constants.CONNECTION, (socket) => {
     let userID = socket.id
-    console.log('user connected', userID)
     socket.on(Constants.DISCONNECT, () => {
         console.log('user disconnected', userID)
         unregisterUser(userID)
     })
     socket.on(Constants.REGISTER, (uuid) => registerUser(uuid, userID))
+    socket.on(Constants.OFFER_SEND, (payload) => sendOffer(payload, socket))
+    socket.on(Constants.ANSWER_SEND, payload => sendAnswer(payload, socket))
 })
 
 http.listen(5000, () => {
