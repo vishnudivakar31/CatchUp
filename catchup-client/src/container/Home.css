@@ -1,0 +1,64 @@
+.home {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.home .left-pane {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10%;
+    border-right: 0.5px solid #b2bec3;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.home .left-pane .brand {
+    color: #B53471;
+    font-size: 50px;
+    font-family: cursive;
+    font-weight: 900;
+}
+
+.home .left-pane .subtitle {
+    font-style: italic;
+    text-align: justify;
+    font-size: small;
+    font-family: fangsong;
+}
+
+.home .right-pane {
+    flex: 4;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.home .right-pane .id-title {
+    font-weight: 600;
+}
+
+.home .right-pane .your-id {
+    font-size: 50px;
+    color: #5758BB;
+}
+
+.home .right-pane .input {
+    width: 50%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home .right-pane .input .connect-button {
+    margin-left: 2%;
+}
