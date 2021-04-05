@@ -62,3 +62,23 @@
 .home .right-pane .input .connect-button {
     margin-left: 2%;
 }
+
+.calling_card {
+    width: 300px;
+    z-index: 1;
+    position: absolute;
+    padding: 1%;
+    background: white;
+    border: 1px solid gray;
+    top: 40%;
+    left: 40%;
+    border-radius: 5px;
+    outline: none;
+}
+
+.alert-dialog {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 40%;
+}
