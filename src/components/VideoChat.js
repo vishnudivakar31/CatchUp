@@ -151,7 +151,7 @@ class VideoChat extends Component {
                         <video className='remote-video' ref={video => this.remoteVideoRef = video} autoPlay />
                     </div>
                     <div className='my-video-container'>
-                        <video className='my-video' ref={video => this.myVideoRef = video} autoPlay />
+                        <video className='my-video' ref={video => this.myVideoRef = video} autoPlay muted />
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                             <Button
                                 color='secondary'
