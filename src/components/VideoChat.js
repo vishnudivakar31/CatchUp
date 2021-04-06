@@ -3,7 +3,6 @@ import CallIcon from '@material-ui/icons/Call'
 import Modal from '@material-ui/core/Modal'
 import Button from '@material-ui/core/Button'
 import './videochat.css'
-import { TimerSharp } from '@material-ui/icons'
 
 class VideoChat extends Component {
     constructor(props) {
@@ -31,7 +30,13 @@ class VideoChat extends Component {
         this.peer.on('connection', conn => {
             conn.on('data', data => {
                 if(data.message_type && data.message_type === 'call-disconnected') {
-                    this.endCall()
+                    if(this.myCallObj) {
+                        this.myCallObj.close()
+                    }
+                    if(this.receiveCallObj) {
+                        this.receiveCallObj.close()
+                    }
+                    this.props.history.push("/")
                 }
             })
         })
@@ -43,20 +48,26 @@ class VideoChat extends Component {
                 message_type: 'call-disconnected'
             })
         }
+        if(this.props.myConnection) {
+            this.props.myConnection.send({
+                message_type: 'call-disconnected'
+            })
+        }
+        this.handleDisconnection()
     }
 
     endCall() {
-        this.handleDisconnection()
+        let conn = this.peer.connect(this.props.targetUUID)
+        conn.on('open', () => {
+            conn.send({
+                message_type: 'call-disconnected'
+            })
+        })
         if(this.myCallObj) {
             this.myCallObj.close()
         }
         if(this.receiveCallObj) {
             this.receiveCallObj.close()
-        }
-        if(this.props.remoteConnection) {
-            this.props.remoteConnection.send({
-                message_type: 'call-disconnected'
-            })
         }
         this.props.history.push("/")
     }
@@ -88,17 +99,23 @@ class VideoChat extends Component {
             callDisconnected: true
         })
         this.stopUserMedia(this.myVideoRef)
-        this.myVideoRef.srcObject = null
-
+        if(this.myVideoRef !== null) {
+            this.myVideoRef.srcObject = null
+        }
+    
         this.stopUserMedia(this.remoteVideoRef)
-        this.remoteVideoRef.srcObject = null
+        if(this.remoteVideoRef !== null) {
+            this.remoteVideoRef.srcObject = null
+        }
     }
 
     stopUserMedia(ref) {
-        let stream = this.myVideoRef.srcObject
-        if(stream) {
-            let tracks = stream.getTracks()
-            tracks.forEach(track => track.stop())
+        if(ref !== null) {
+            let stream = ref.srcObject
+            if(stream) {
+                let tracks = stream.getTracks()
+                tracks.forEach(track => track.stop())
+            }
         }
     }
 
@@ -125,7 +142,9 @@ class VideoChat extends Component {
                 this.receiveCallObj = call
                 call.answer(stream)
                 call.on('stream', remoteStream => {
-                    this.remoteVideoRef.srcObject = remoteStream
+                    if(this.remoteVideoRef !== null) {
+                        this.remoteVideoRef.srcObject = remoteStream
+                    }
                 })
                 call.on('close', e => this.endCall())
                 this.myVideoRef.srcObject = stream
