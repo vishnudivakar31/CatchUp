@@ -6,4 +6,4 @@ app.use(express.static(path.join(__dirname, 'catchup-client/build')))
 
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'catchup-client/build', 'index.html')))
 
-app.listen(3000, () => console.log('server running in', 3000))
+app.listen(process.env.PORT || 3000, () => console.log('server running in', process.env.PORT || 3000))
