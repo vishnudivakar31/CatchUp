@@ -5,6 +5,7 @@ import CallIcon from '@material-ui/icons/Call'
 import Modal from '@material-ui/core/Modal'
 import Ringtone from '../sound/ringtone_minimal.wav'
 import Alert from '@material-ui/lab/Alert'
+import { withRouter } from 'react-router-dom'
 
 import "./Home.css"
 
@@ -22,11 +23,13 @@ class Home extends Component {
         this.showCallingModal = this.showCallingModal.bind(this)
         this.showCallRejectedAlert = this.showCallRejectedAlert.bind(this)
         this.showConnectingModal = this.showConnectingModal.bind(this)
+        this.acceptCall = this.acceptCall.bind(this)
         this.state = {
             calling: false,
             calling_from: '',
             call_rejected: false,
-            connecting: false
+            connecting: false,
+            callerID: ''
         }
         this.ringtone = new Audio(Ringtone)
         this.ringtone.loop = true
@@ -44,7 +47,8 @@ class Home extends Component {
                     if (data.message_type && data.message_type === 'calling') {
                         this.setState({
                             calling: true,
-                            calling_from: `${data.userID} is calling you.`
+                            calling_from: `${data.userID} is calling you.`,
+                            callerID: `${data.userID}`
                         })
                     }
                 })
@@ -71,12 +75,26 @@ class Home extends Component {
         this.ringtone.remove()
     }
 
+    acceptCall() {
+        this.props.setTargetUUID(this.state.callerID)
+        this.props.setCalledByMe(false)
+        if (this.props.remoteConnection) {
+            this.props.remoteConnection.send({
+                message_type: 'call-accepted'
+            })
+            this.props.history.push('/chat')
+            this.ringtone.pause()
+        }
+    }
+
     callButtonTapped() {
         if (this.friendsUUID && this.friendsUUID.value.length > 0) {
             let uuid = this.friendsUUID.value
             let conn = this.peer.connect(uuid)
+            this.props.setCalledByMe(true)
             conn.on('open', () => {
                 this.setMyConnection(conn)
+                this.props.setTargetUUID(uuid)
                 conn.send({
                     message_type: 'calling',
                     userID: this.uuid
@@ -87,6 +105,8 @@ class Home extends Component {
                             call_rejected: true,
                             connecting: false
                         })
+                    } else if (data.message_type && data.message_type === 'call-accepted') {
+                        this.props.history.push('/chat')
                     }
                 })
                 this.setState({ connecting: true })
@@ -119,6 +139,7 @@ class Home extends Component {
                             color='primary'
                             variant='contained'
                             style={{ marginLeft: '2%' }}
+                            onClick={this.acceptCall}
                         >
                             Accept
                         </Button>
@@ -191,4 +212,4 @@ class Home extends Component {
     }
 }
 
-export default Home
+export default withRouter(Home)
