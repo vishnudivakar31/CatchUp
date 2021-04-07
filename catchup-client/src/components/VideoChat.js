@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import CallIcon from '@material-ui/icons/Call'
 import Modal from '@material-ui/core/Modal'
 import Button from '@material-ui/core/Button'
+import TextChat from './TextChat'
 import './videochat.css'
 
 class VideoChat extends Component {
@@ -180,6 +181,12 @@ class VideoChat extends Component {
                                 End Call
                             </Button>
                         </div>
+                        <TextChat 
+                            peer={this.props.peer}
+                            uuid={this.props.uuid}
+                            targetUUID={this.props.targetUUID}
+                            calledByMe={this.props.calledByMe}
+                        />
                     </div>
                 </div>
                 

@@ -1,0 +1,24 @@
+.text-chat {
+    margin-top: 5%;;
+}
+
+.chat-header {
+    font-weight: 600;
+    font-size: x-large;
+    border-bottom: 1px solid grey;
+}
+
+.chat-message-display {
+    height: 52vh;
+    overflow: scroll;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+    border: 1px solid grey;
+    padding: 2%;
+    border-radius: 5px;
+}
