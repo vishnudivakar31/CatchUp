@@ -1,5 +1,7 @@
 .text-chat {
-    margin-top: 5%;;
+    margin-top: 5%;
+    position: relative;
+    height: 50vh;
 }
 
 .chat-header {
@@ -9,8 +11,15 @@
 }
 
 .chat-message-display {
-    height: 52vh;
+    height: 80%;
     overflow: scroll;
+    padding-bottom: 0.5vh;
+    width: 100%;
+}
+
+.table-cell {
+    vertical-align: bottom;
+    width: 100%;
 }
 
 .input-group {
@@ -21,4 +30,45 @@
     border: 1px solid grey;
     padding: 2%;
     border-radius: 5px;
+    position: absolute;
+    bottom: 0;
+    left: 0%;
+    right: 0%;
+    flex: 1;
+}
+
+.message-bubble {
+    padding: 3%;
+    border-radius: 10px;
+    max-width: 50%;
+    width: max-content;
+    overflow: auto;
+    margin-top: 2%;
+}
+
+.message-bubble.left {
+    color: white;
+    background: #e17055;
+}
+
+.message-bubble.right {
+    color: white;
+    background: #6c5ce7;
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.message-container.left {
+    align-items: flex-start;
+}
+
+.message-container.right {
+    align-items: flex-end;
+}
+
+.message-time {
+    font-size: xx-small;
 }

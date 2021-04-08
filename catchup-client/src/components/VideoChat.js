@@ -186,6 +186,8 @@ class VideoChat extends Component {
                             uuid={this.props.uuid}
                             targetUUID={this.props.targetUUID}
                             calledByMe={this.props.calledByMe}
+                            myConnection={this.props.myConnection} 
+                            remoteConnection={this.props.remoteConnection}
                         />
                     </div>
                 </div>
