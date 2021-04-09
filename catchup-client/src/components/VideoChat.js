@@ -3,6 +3,12 @@ import CallIcon from '@material-ui/icons/Call'
 import Modal from '@material-ui/core/Modal'
 import Button from '@material-ui/core/Button'
 import TextChat from './TextChat'
+import IconButton from '@material-ui/core/IconButton'
+import CallEndIcon from '@material-ui/icons/CallEnd'
+import MicOffIcon from '@material-ui/icons/MicOff'
+import VideocamOffIcon from '@material-ui/icons/VideocamOff'
+import VideocamIcon from '@material-ui/icons/Videocam'
+import MicIcon from '@material-ui/icons/Mic'
 import './videochat.css'
 
 class VideoChat extends Component {
@@ -19,8 +25,12 @@ class VideoChat extends Component {
         this.showDisconnectMessage = this.showDisconnectMessage.bind(this)
         this.stopUserMedia = this.stopUserMedia.bind(this)
         this.endCall = this.endCall.bind(this)
+        this.toggleAudio = this.toggleAudio.bind(this)
+        this.toggleVideo = this.toggleVideo.bind(this)
         this.state = {
-            callDisconnected: false
+            callDisconnected: false,
+            videoOff: false,
+            audioOff: false
         }
     }
 
@@ -41,6 +51,27 @@ class VideoChat extends Component {
                 }
             })
         })
+    }
+
+    componentDidUpdate(_ ,prevState) {
+        if(this.state.audioOff !== prevState.audioOff) {
+            this.toggleAudio()
+        }
+        if (this.state.videoOff !== prevState.videoOff) {
+            this.toggleVideo()
+        }
+    }
+
+    toggleAudio() {
+        if(this.myStream) {
+            this.myStream.getAudioTracks()[0].enabled = !this.state.audioOff
+        }
+    }
+
+    toggleVideo() {
+        if(this.myStream) {
+            this.myStream.getVideoTracks()[0].enabled = !this.state.videoOff
+        }
     }
     
     componentWillUnmount() {
@@ -124,6 +155,7 @@ class VideoChat extends Component {
         if (this.props.calledByMe) {
             navigator.mediaDevices.getUserMedia({video: true, audio: true})
             .then(stream => {
+                this.myStream = stream
                 let call = this.peer.call(this.targetUUID, stream)
                 this.myCallObj = call
                 call.on('stream', remoteStream => {
@@ -140,6 +172,7 @@ class VideoChat extends Component {
         this.peer.on('call', call => {
             navigator.mediaDevices.getUserMedia({video: true, audio: true})
             .then(stream => {
+                this.myStream = stream
                 this.receiveCallObj = call
                 call.answer(stream)
                 call.on('stream', remoteStream => {
@@ -172,14 +205,45 @@ class VideoChat extends Component {
                     </div>
                     <div className='my-video-container'>
                         <video className='my-video' ref={video => this.myVideoRef = video} autoPlay muted />
-                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button
-                                color='secondary'
-                                variant='contained'
-                                onClick={this.endCall}
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2%' }}>
+                            <IconButton
+                                style={{
+                                    padding: '2%',
+                                    border: '0.5px solid grey',
+                                    borderRadius: '20px',
+                                    background: this.state.videoOff ? 'grey' : 'white',
+                                    color: this.state.videoOff? 'white' : 'grey'
+                                }}
+                                onClick={() => this.setState({ videoOff: !this.state.videoOff })}
                             >
-                                End Call
-                            </Button>
+                                {this.state.videoOff ? <VideocamOffIcon /> : <VideocamIcon />} 
+                            </IconButton>
+                            <IconButton
+                                style={{
+                                    padding: '2%',
+                                    border: '0.5px solid grey',
+                                    borderRadius: '20px',
+                                    marginLeft: '3%',
+                                    background: this.state.audioOff ? 'grey' : 'white',
+                                    color: this.state.audioOff? 'white' : 'grey'
+                                }}
+                                onClick={() => this.setState({ audioOff: !this.state.audioOff })}
+                            >
+                                {this.state.audioOff ? <MicOffIcon /> : <MicIcon />}
+                            </IconButton>
+                            <IconButton
+                                onClick={this.endCall}
+                                style={{
+                                    padding: '2%',
+                                    borderRadius: '20px',
+                                    border: '0.5px solid grey',
+                                    background: 'red',
+                                    color: 'white',
+                                    marginLeft: '3%'
+                                }}
+                            >
+                                <CallEndIcon />
+                            </IconButton>
                         </div>
                         <TextChat 
                             peer={this.props.peer}
