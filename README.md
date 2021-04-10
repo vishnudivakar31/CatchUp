@@ -11,6 +11,9 @@
 CatchUp is an anonymous video chat cloud solution. Each session will generate a new session ID for the user. User can convey this session ID to a friend to initiate the call. The platform is not using any server to store any information. This is purely a peer-to-peer solution making sure confidentiality and privacy.
 </p>
 
+<h3>Hosted</h3>
+<p>https://catchup-webrtc.herokuapp.com/</p>
+
 <h3>Features</h3>
 <ol>
   <li>Anonymous Connection</li>
@@ -26,5 +29,18 @@ CatchUp is an anonymous video chat cloud solution. Each session will generate a 
   </p>
   <p align="center">
     <img src="https://github.com/vishnudivakar31/CatchUp/blob/main/screenshots/homescreen.png" />
+  </p>
+</div>
+
+<h3>Landing Page</h3>
+<div>
+  <p align="justify">
+    When user provides a session ID and click call. User will be given notification that we are trying to connect. At this time, the other user will be getting a calling notification with a ringtone. The friend will have two options, either to reject the call or accept call. Rejection of the call will be notified to the user.
+  </p>
+  <p align="center">
+    <img src="https://github.com/vishnudivakar31/CatchUp/blob/main/screenshots/call_initiated.png" />
+  </p>
+  <p align="center">
+    <img src="https://github.com/vishnudivakar31/CatchUp/blob/main/screenshots/call_rejected.png" />
   </p>
 </div>
