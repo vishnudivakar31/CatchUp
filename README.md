@@ -41,6 +41,40 @@ CatchUp is an anonymous video chat cloud solution. Each session will generate a 
     <img src="https://github.com/vishnudivakar31/CatchUp/blob/main/screenshots/call_initiated.png" />
   </p>
   <p align="center">
+    <img src="https://github.com/vishnudivakar31/CatchUp/blob/main/screenshots/calling.png" />
+  </p>
+  <p align="center">
     <img src="https://github.com/vishnudivakar31/CatchUp/blob/main/screenshots/call_rejected.png" />
+  </p>
+</div
+
+<h3>Video Call</h3>
+<div>
+  <p align="justify">
+    Browser will ask user to allow camera and microphone access. Once access is provided, the streaming will start.
+  </p>
+  <p align="center">
+    <img src="https://github.com/vishnudivakar31/CatchUp/blob/main/screenshots/video_call_initiated.png" />
+  </p>
+</div>
+
+<h3>Video Controls</h3>
+<div>
+  <p align="justify">
+    User can disable video and audio at anytime. User can also end the call at anytime as well.
+  </p>
+  <p align="center">
+    <img src="https://github.com/vishnudivakar31/CatchUp/blob/main/screenshots/video_controls.png" />
+  </p>
+</div>
+
+<h3>Text Messages</h3>
+<div>
+  <p align="justify">
+    Apart from video-audio chat. Users can exchange plain text in near-real time.
+  </p>
+  <p align="center">
+    <img src="https://github.com/vishnudivakar31/CatchUp/blob/main/screenshots/message_1.png" />
+    <img src="https://github.com/vishnudivakar31/CatchUp/blob/main/screenshots/message_2.png" />
   </p>
 </div>
